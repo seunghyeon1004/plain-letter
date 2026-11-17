@@ -55,16 +55,16 @@
 
 textarea, select, input[type="text"], input[type="file"] {
   width: 100%; min-height: 44px; padding: var(--space-xs) var(--space-sm);
-  border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-input);
+  border: var(--rule-hair) solid var(--color-muted); border-radius: var(--radius-input);
   background: var(--color-paper); color: var(--color-ink); font-size: var(--text-md);
 }
 textarea { min-height: 16rem; resize: vertical; line-height: 1.5; font-family: var(--font-body); }
 select { appearance: auto; }
-textarea:hover, select:hover, input[type="text"]:hover { border-color: var(--color-muted); }
+textarea:hover, select:hover, input[type="text"]:hover { border-color: var(--color-ink); }
 textarea:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -1px; }
 input[type="file"] { padding: var(--space-sm); background: var(--color-paper-2); }
 input[type="file"]::file-selector-button { font: inherit; font-weight: 600; margin-right: var(--space-sm); padding: var(--space-2xs) var(--space-sm); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-input); background: var(--color-paper); color: var(--color-ink); cursor: pointer; }
-input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--color-ink); margin: 2px 0 0; flex: none; }
+input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--color-ink); margin: var(--space-3xs) 0 0; flex: none; }
 input[type="checkbox"]:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
 .seg { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; }
@@ -148,7 +148,7 @@ progress { width: 100%; height: 8px; accent-color: var(--color-accent); }
 
 .code { margin: 0; padding: var(--space-sm) var(--space-md); max-height: 22rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-outlier); font-size: var(--text-sm); line-height: 1.55; background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); color: var(--color-ink); }
 .code:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-.token { background: var(--color-mark); color: var(--color-mark-ink); border-radius: 4px; padding: 0 2px; font-weight: 600; }
+.token { background: var(--color-mark); color: var(--color-mark-ink); border-radius: 4px; padding: 0 var(--space-3xs); font-weight: 600; }
 
 /* ---------- ledger (signature) ---------- */
 

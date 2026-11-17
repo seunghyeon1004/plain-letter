@@ -19,6 +19,7 @@ import { ENTITY_LABEL, ENTITY_TYPES, type EntityType, type MaskResult, type Span
 import { extractLocal } from "./extract/deterministic";
 import { SAMPLES } from "./samples/letters";
 import { $, clear, h } from "./ui/dom";
+import { answerLabels, isRtl } from "./ui/i18n";
 
 const params = new URLSearchParams(location.search);
 const bootP: Promise<Boot> = boot(params);
@@ -218,6 +219,7 @@ function reasonsList(route: Route) {
 
 function renderResult(e: Explanation, run: RunResult, route: Route, outputLang: string, notes: string[] = []) {
   const onDevice = run.source === "on_device";
+  const t = answerLabels(outputLang);
   clear(
     els.answer,
     h(
@@ -228,20 +230,21 @@ function renderResult(e: Explanation, run: RunResult, route: Route, outputLang: 
     ),
     h(
       "dl",
-      { class: "explain", lang: outputLang },
-      h("dt", {}, "What this is"),
+      { class: "explain", lang: outputLang, dir: isRtl(outputLang) ? "rtl" : undefined },
+      h("dt", {}, t.what),
       h("dd", {}, e.what_this_is),
-      h("dt", {}, "What you must do"),
+      h("dt", {}, t.must),
       h("dd", {}, e.what_you_must_do),
-      h("dt", {}, "By when"),
+      h("dt", {}, t.when),
       h("dd", { class: "explain__when" }, e.by_when),
-      h("dt", {}, "If you do nothing"),
+      h("dt", {}, t.nothing),
       h("dd", {}, e.if_you_do_nothing),
     ),
     e.questions_to_ask.length
-      ? h("div", { class: "questions", lang: outputLang }, h("h3", {}, "Questions you could ask"), h("ul", {}, e.questions_to_ask.map((q) => h("li", {}, q))))
+      ? h("div", { class: "questions", lang: outputLang, dir: isRtl(outputLang) ? "rtl" : undefined }, h("h3", {}, t.questions), h("ul", {}, e.questions_to_ask.map((q) => h("li", {}, q))))
       : null,
-    h("p", { class: "help" }, `Written in ${languageName(outputLang)}. Check the dates and amounts against the letter. This is not legal advice.`),
+    h("p", { class: "help", lang: outputLang, dir: isRtl(outputLang) ? "rtl" : undefined }, t.advice),
+    outputLang !== "en" ? h("p", { class: "help" }, `Written in ${languageName(outputLang)}. Check the dates and amounts against the letter. This is not legal advice.`) : null,
     notes.length ? h("ul", { class: "reasons" }, notes.map((n) => h("li", {}, n))) : null,
     !onDevice ? h("details", { class: "why-route" }, h("summary", {}, "Why it went to the cloud"), reasonsList(route)) : null,
   );

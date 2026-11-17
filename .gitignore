@@ -12,3 +12,4 @@ results/real-chrome-*.json
 public/ocr/
 .chrome-profile/
 results/
+.hallmark/
