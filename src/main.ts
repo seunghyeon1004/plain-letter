@@ -122,6 +122,8 @@ interface Run {
   startLedgerId: number;
   endLedgerId?: number;
   maskedCount?: number;
+  /** response.inferenceSource of the answer shown, if any */
+  inferenceSource?: string;
 }
 const runs: Run[] = [];
 let allEntries: LedgerEntry[] = [];
@@ -476,6 +478,7 @@ async function sendMasked(r: ReviewState) {
   try {
     const res = await ai.explainInCloud(m.masked, r.outputLang);
     run.endLedgerId = lastLedgerId();
+    run.inferenceSource = res.source;
     const e = res.explanation;
     const back = (s: string) => restore(s, m.map);
     renderResult(
@@ -535,10 +538,11 @@ async function readOnDevice(text: string, letterLang: string, outputLang: string
   const { ai } = await bootP;
   const run = startRun("device", text);
   setBusy(true);
-  renderWorking("Reading on this device");
+  renderWorking("Reading on this device. The first reading can take up to 20 seconds.");
   try {
     const res = await ai.explainOnDevice(text, letterLang, outputLang);
     run.endLedgerId = lastLedgerId();
+    run.inferenceSource = res.source;
     renderResult(res.explanation, res, route, outputLang);
   } catch (err) {
     run.endLedgerId = lastLedgerId();

@@ -1,0 +1,200 @@
+{
+  "at": "2026-11-17T06:18:02.759Z",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "brands": [
+    {
+      "brand": "Not-A.Brand",
+      "version": "99"
+    },
+    {
+      "brand": "Google Chrome",
+      "version": "157"
+    },
+    {
+      "brand": "Chromium",
+      "version": "157"
+    }
+  ],
+  "deviceState": "available",
+  "networkRequestsDuringChecks": [],
+  "passed": 10,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "explain:rent:en",
+      "kind": "explain",
+      "sample": "rent",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 7463,
+      "output": {
+        "what_this_is": "This is a letter from Harrowgate Property Management telling you about a rent increase for your apartment. It tells you the new rent and when it will start.",
+        "what_you_must_do": "If you want to keep living in your apartment at the new rent, you don't have to do anything. If you don't want to pay the new rent, you need to write a letter telling them you will move out by April 1, 2026.",
+        "by_when": "April 1, 2026",
+        "if_you_do_nothing": "If you don't send them a letter by April 1, 2026, they will assume you agree to the new rent, and you'll have to pay it starting May 1, 2026.",
+        "questions_to_ask": [
+          "Why is the rent increasing?",
+          "Can I talk to someone about this?",
+          "Where can I find information about my lease and local laws?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:rent:es",
+      "kind": "explain",
+      "sample": "rent",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 5847,
+      "output": {
+        "what_this_is": "This letter is from Harrowgate Property Management to Maria Elena Okafor about her rent. The rent is going up.",
+        "what_you_must_do": "If you want to stay, you don't need to do anything. If you don't want to pay the new rent, you need to write that you will move out by April 1, 2026.",
+        "by_when": "April 1, 2026",
+        "if_you_do_nothing": "If you don't send a written notice to move out by April 1, 2026, they will assume you agree to pay the new, higher rent, starting May 1, 2026.",
+        "questions_to_ask": [
+          "Why is the rent going up?",
+          "Can you talk to me about the rent increase?",
+          "Where can I get help understanding my lease?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:rent",
+      "kind": "names",
+      "sample": "rent",
+      "ok": true,
+      "ms": 921,
+      "output": {
+        "names": [
+          "Maria Elena Okafor",
+          "Jordan Reyes"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:insurance-de:en",
+      "kind": "explain",
+      "sample": "insurance-de",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 5687,
+      "output": {
+        "what_this_is": "This is a reminder letter from Lindhaven Versicherung AG about your home insurance. They couldn't take the payment from your bank.",
+        "what_you_must_do": "You need to pay the 64.20 EUR for your home insurance.",
+        "by_when": "17. November 2026",
+        "if_you_do_nothing": "If you don't pay by November 17th, your insurance will stop working from November 18th. Any damage after that won't be covered until you pay. They might also charge you a fee of 5.00 EUR.",
+        "questions_to_ask": [
+          "Why was the payment returned?",
+          "How can I pay the insurance?",
+          "What happens if I can't pay by November 17th?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:insurance-de:es",
+      "kind": "explain",
+      "sample": "insurance-de",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 5177,
+      "output": {
+        "what_this_is": "This is a letter from Lindhaven Versicherung AG, an insurance company. It's a reminder about your home insurance payment.",
+        "what_you_must_do": "You need to pay the 64.20 EUR for your home insurance.",
+        "by_when": "Bis zum 17. November 2026",
+        "if_you_do_nothing": "If you don't pay by November 17th, your insurance will stop working from November 18th, and you might have to pay a fee of 5.00 EUR.",
+        "questions_to_ask": [
+          "Why was the payment not successful in the first place?",
+          "How can I pay the insurance?",
+          "What exactly does 'insurance stopping working' mean?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:insurance-de",
+      "kind": "names",
+      "sample": "insurance-de",
+      "ok": true,
+      "ms": 800,
+      "output": {
+        "names": [
+          "Amira Haddad"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:school:en",
+      "kind": "explain",
+      "sample": "school",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 5532,
+      "output": {
+        "what_this_is": "This is a letter from the school about Tomasz Novak's absences. It's from the Attendance Office at Wrenfield Primary School. They are worried because Tomasz has been absent without permission 9 times.",
+        "what_you_must_do": "You need to call the Attendance Office to set up a meeting.",
+        "by_when": "24 November 2026",
+        "if_you_do_nothing": "If you don't contact them by then, the school might send a letter to the local authority without a meeting. The local authority could then give you a penalty notice of £80.",
+        "questions_to_ask": [
+          "Why has Tomasz been absent so many times?",
+          "What kind of support plan will the school and you create?",
+          "What will happen if we can’t attend the meeting on November 24th?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:school:es",
+      "kind": "explain",
+      "sample": "school",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 4843,
+      "output": {
+        "what_this_is": "This is a letter from Wrenfield Primary School's Attendance Office to the parent of Tomasz Novak. The school is worried because Tomasz has been absent from school without permission many times.",
+        "what_you_must_do": "You need to call the Attendance Office to set up a meeting.",
+        "by_when": "24 November 2026",
+        "if_you_do_nothing": "If you don't call by November 24th, the school might tell the local government about Tomasz's absences without a meeting.",
+        "questions_to_ask": [
+          "Why is Tomasz missing school?",
+          "What kind of support plan can be made?",
+          "What happens if the local government gives a penalty notice?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:school",
+      "kind": "names",
+      "sample": "school",
+      "ok": true,
+      "ms": 897,
+      "output": {
+        "names": [
+          "Priya Castellanos",
+          "Tomasz Novak"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "photo:rent",
+      "kind": "photo",
+      "sample": "rent",
+      "ok": true,
+      "ms": 6530,
+      "output": {
+        "text": "SAMPLE LETTER - invented for demonstration\n\nHarrowgate Property Management\n88 Quillon Avenue, Suite 400\nEastmere, OR 97999\n\nMarch 2, 2026\n\nMaria Elena Okafor\n14 Larkspur Lane, Apt 3B\nEastmere, OR 97998\n\nTenant account: HPM-55120-3B\n\nDear Ms Okafor,\n\nNOTICE OF RENT INCREASE\n\nThis letter is your formal notice that the monthly rent for your unit will increase from $1,450\n\nIf you wish to stay in the unit at the new rent, you do not need to do anything. If you do not\n\nIf you believe this increase is not allowed under your lease or local law, you may contact the\n\nQuestions about this notice can be sent to leasing@harrowgate-pm.example or by phone at (541) 5\n\nSincerely,\n\nJordan Reyes\nLeasing Manager",
+        "chars": 701
+      },
+      "source": "on_device"
+    }
+  ]
+}

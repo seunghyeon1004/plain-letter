@@ -1,0 +1,200 @@
+{
+  "at": "2026-11-17T06:24:11.494Z",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "brands": [
+    {
+      "brand": "Not-A.Brand",
+      "version": "99"
+    },
+    {
+      "brand": "Google Chrome",
+      "version": "157"
+    },
+    {
+      "brand": "Chromium",
+      "version": "157"
+    }
+  ],
+  "deviceState": "available",
+  "networkRequestsDuringChecks": [],
+  "passed": 10,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "explain:rent:en",
+      "kind": "explain",
+      "sample": "rent",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 18650,
+      "output": {
+        "what_this_is": "This is a letter from Harrowgate Property Management telling you your rent is going up. It's a notice about a rent increase.",
+        "what_you_must_do": "If you want to stay at your apartment with the new rent, you don't need to do anything. If you don't want to pay the new rent, you need to write a letter saying you will move out by April 1, 2026.",
+        "by_when": "April 1, 2026",
+        "if_you_do_nothing": "If Harrowgate Property Management doesn't get a letter from you by April 1, 2026, they will assume you agree to the new rent, which is $1,595.00 starting May 1, 2026.",
+        "questions_to_ask": [
+          "Why is the rent increasing?",
+          "Is the rent increase allowed according to my lease?",
+          "What is the Eastmere Tenant Help Line for?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:rent:es",
+      "kind": "explain",
+      "sample": "rent",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 5935,
+      "output": {
+        "what_this_is": "Esta carta es un aviso de aumento de alquiler de la empresa Harrowgate Property Management a Maria Elena Okafor.  Dice que el alquiler subirá.",
+        "what_you_must_do": "Si quieres seguir viviendo en tu apartamento con el nuevo alquiler, no tienes que hacer nada. Si no quieres el nuevo alquiler, debes enviar una carta diciendo que te vas antes del 1 de abril de 2026.",
+        "by_when": "1 de abril de 2026",
+        "if_you_do_nothing": "Si no envías una carta antes del 1 de abril, se considerará que aceptas el nuevo alquiler y lo pagarás desde el 1 de mayo de 2026.",
+        "questions_to_ask": [
+          "¿Por qué está aumentando el alquiler?",
+          "¿El aumento de alquiler está permitido según mi contrato?",
+          "¿Dónde puedo encontrar información sobre las leyes de alquiler locales?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:rent",
+      "kind": "names",
+      "sample": "rent",
+      "ok": true,
+      "ms": 893,
+      "output": {
+        "names": [
+          "Maria Elena Okafor",
+          "Jordan Reyes"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:insurance-de:en",
+      "kind": "explain",
+      "sample": "insurance-de",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 6047,
+      "output": {
+        "what_this_is": "This is a letter from Lindhaven Versicherung AG (an insurance company) to Amira Haddad about her home insurance. The letter is a reminder about payment.",
+        "what_you_must_do": "You need to pay the 64.20 EUR that you owe for your home insurance.",
+        "by_when": "You need to pay by November 17, 2026.",
+        "if_you_do_nothing": "If you don't pay by November 17, 2026, your home insurance will stop working from November 18, 2026. You won't be covered for any damage that happens after that until you pay. They might also charge you a 5.00 EUR fee.",
+        "questions_to_ask": [
+          "How can I pay?",
+          "What is my policy number?",
+          "What if I can't pay the full amount by November 17th?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:insurance-de:es",
+      "kind": "explain",
+      "sample": "insurance-de",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 6402,
+      "output": {
+        "what_this_is": "Es una carta de la compañía de seguros Lindhaven. Ellos recuerdan que aún no pagaste tu seguro de hogar. La carta es para la señora Amira Haddad.",
+        "what_you_must_do": "Debes pagar el dinero que aún debes de tu seguro de hogar.",
+        "by_when": "Hasta el 17 de noviembre de 2026.",
+        "if_you_do_nothing": "Si no pagas antes del 17 de noviembre de 2026, tu seguro de hogar dejará de funcionar desde el 18 de noviembre de 2026.  Si eso pasa, no tendrás cobertura si algo llega a suceder en tu hogar hasta que pagues. Además, te pueden cobrar una tarifa adicional de 5.00 EUR.",
+        "questions_to_ask": [
+          "¿Cómo puedo pagar el seguro?",
+          "¿Por qué la transferencia no funcionó la primera vez?",
+          "¿Dónde puedo encontrar la información sobre las tarifas adicionales?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:insurance-de",
+      "kind": "names",
+      "sample": "insurance-de",
+      "ok": true,
+      "ms": 801,
+      "output": {
+        "names": [
+          "Amira Haddad"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:school:en",
+      "kind": "explain",
+      "sample": "school",
+      "outputLang": "en",
+      "ok": true,
+      "ms": 4361,
+      "output": {
+        "what_this_is": "This is a letter from Wrenfield Primary School's Attendance Office to Tomasz Novak's parent. The school is worried because Tomasz has missed 9 days of school without permission.",
+        "what_you_must_do": "Mr. Novak needs to contact the Attendance Office to arrange a meeting.",
+        "by_when": "By 24 November 2026",
+        "if_you_do_nothing": "If Mr. Novak doesn't contact the Attendance Office by 24 November, the school might send a referral to the local authority without a meeting.",
+        "questions_to_ask": [
+          "Why has Tomasz been absent from school?",
+          "What is a penalty notice from the local authority?",
+          "What is a support plan?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "explain:school:es",
+      "kind": "explain",
+      "sample": "school",
+      "outputLang": "es",
+      "ok": true,
+      "ms": 6045,
+      "output": {
+        "what_this_is": "Esta carta es del departamento de asistencia de la escuela Wrenfield Primary School a los padres de Tomasz Novak. La carta informa sobre las faltas de clase de Tomasz.",
+        "what_you_must_do": "Debes llamar a la Oficina de Asistencia para programar una reunión. En la reunión hablarán sobre por qué Tomasz ha faltado a clase y cómo ayudarlo.",
+        "by_when": "Antes del 24 de noviembre de 2026.",
+        "if_you_do_nothing": "Si no contactas a la oficina antes del 24 de noviembre, la escuela podría enviar un informe sobre las faltas sin una reunión previa. Esto podría resultar en una multa de 80 libras esterlinas por padre.",
+        "questions_to_ask": [
+          "¿Por qué Tomasz ha faltado a clase mucho?",
+          "¿Qué tipo de apoyo se le dará a Tomasz en la reunión?",
+          "¿Puedo ir yo también a la reunión?"
+        ]
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "names:school",
+      "kind": "names",
+      "sample": "school",
+      "ok": true,
+      "ms": 896,
+      "output": {
+        "names": [
+          "Tomasz Novak",
+          "Priya Castellanos"
+        ],
+        "leakedAfterMasking": []
+      },
+      "source": "on_device"
+    },
+    {
+      "id": "photo:rent",
+      "kind": "photo",
+      "sample": "rent",
+      "ok": true,
+      "ms": 7972,
+      "output": {
+        "text": "SAMPLE LETTER - invented for demonstration\n\nHarrowgate Property Management\n88 Quillon Avenue, Suite 400\nEastmere, OR 97999\n\nMarch 2, 2026\n\nMaria Elena Okafor\n14 Larkspur Lane, Apt 3B\nEastmere, OR 97998\n\nTenant account: HPM-55120-3B\n\nDear Ms Okafor,\n\nNOTICE OF RENT INCREASE\n\nThis letter is your formal notice that the monthly rent for your unit will increase from $1,450.00 to $1,595.00, starting May 1, 2026.\n\nIf you wish to stay in the unit at the new rent, you do not need to do anything. If you do not accept the new rent, you must give us written notice that you will move out by April 1, 2026. If we do not receive written notice by that date, we will treat your continued tenancy as acceptance of the new rent, and the higher amount will be due on May 1, 2026.\n\nIf you believe this increase is not allowed under your lease or local law, you may contact the Eastmere Tenant Help Line at (541) 555-0187 before April 1, 2026.\n\nQuestions about this notice can be sent to leasing@harrowgate-pm.example or by phone at (541) 555-0142.\n\nSincerely,\n\nJordan Reyes\nLeasing Manager",
+        "chars": 1076
+      },
+      "source": "on_device"
+    }
+  ]
+}
