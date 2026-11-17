@@ -45,7 +45,13 @@ Paste a letter, drop a photo, or pick an invented sample, and choose the languag
 - No backend and no database: the product stores nothing server-side, by design.
 
 ## How well Gemini Nano does the job (measured)
-On the three sample letters in real Chrome, Nano got 23.5 of 24 answer fields right in English and Spanish, found every person's name for masking, and read synthetic photos of the letters with 43 of 45 key fields exact. With our first prompt, it answered in English when asked for Spanish. We fixed the prompt, and the app now checks the language and completeness of every on-device answer: a weak answer is never shown, and the reader is offered the masked cloud path instead. Details are in `docs/MEASUREMENTS.md`.
+On the three sample letters in real Chrome, Nano got 23.5 of 24 answer fields right in English and Spanish, found every person's name for masking, and read synthetic photos of the letters with 43 of 45 key fields exact. With our first prompt, it answered in English when asked for Spanish. We fixed the prompt, and the app now checks the language and completeness of every on-device answer: a weak answer is never shown, and the reader is offered the masked cloud path instead. Details: [docs/MEASUREMENTS.md](https://github.com/seunghyeon1004/plain-letter/blob/main/docs/MEASUREMENTS.md).
+
+### Honest limits
+- On-device reading needs desktop Google Chrome 139 or later, about 22 GB of free disk, and a GPU with more than 4 GB VRAM or 16 GB RAM. Everyone else, including phones, gets the masked cloud path. Before you press Read, the page says which path your browser will take, and it offers a labelled recording of a real on-device run.
+- The on-device model writes English, Spanish, German, French and Japanese. Other reader languages use the masked cloud path.
+- Photo reading was measured on synthetic photos only. Real phone photos are not measured.
+- Masking can miss something unusual, which is why the reader reviews the masked copy before anything is sent.
 
 ## Challenges we ran into
 - **Masking that keeps the meaning.** Hiding every date would destroy "by when", so the policy hides who you are and how to find you, but keeps deadlines and amounts. Placeholders are chosen so they can never collide with text already in the letter. Property tests check that `restore(mask(x)) === x` for any text.
@@ -78,7 +84,9 @@ For people who must act on an official letter they cannot easily read, Plain Let
 3. Choose **Sample: Rent increase notice**, choose **Español**, and press **Read this letter**. The answer is tagged *Read on this device*, and the ledger shows *0 requests carried letter text*. The first on-device reading after a cold start can take up to 20 seconds.
 4. Choose **Sample: Benefit overpayment review (long, 6 pages)** and press **Read this letter**. It is too long for the device: check the masked copy, press **Send this masked copy**, then open the ledger entry to see the exact request body.
 5. Without the on-device model (any other browser or a phone), steps 3 and 4 both use the masked cloud path.
-6. Optional: open `/verify.html`, then press Prepare, Run and Save to download a JSON record of the on-device checks.
+6. Without an on-device model, press **See a recorded on-device run** for a labelled recording made in Chrome 157, with its measured numbers.
+7. Optional: open `/verify`, then press Prepare, Run and Save to download a JSON record of the on-device checks.
+8. To check the privacy claim yourself, open DevTools > Network and compare the one `generateContent` request with **What left this device > Exact request body** (see the README).
 
 All sample letters are invented. No login is needed.
 

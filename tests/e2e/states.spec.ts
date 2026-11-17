@@ -71,7 +71,7 @@ test("before Read, the page says which path this browser will take", async ({ pa
 
 test("no on-device model: the preview says so, and the recorded run is labelled as a recording", async ({ page }) => {
   await page.goto("/?ai=demo&fakeDevice=no-api");
-  await expect(page.locator("#path-text")).toContainText("this browser has no on-device model");
+  await expect(page.locator("#path-text")).toContainText("because this browser has no on-device model");
   await page.click("#recording-btn");
   const dialog = page.getByRole("dialog", { name: "A recorded on-device run" });
   await expect(dialog).toBeVisible();

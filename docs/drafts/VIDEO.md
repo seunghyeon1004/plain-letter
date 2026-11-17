@@ -1,5 +1,7 @@
 # Demo video: script and shot list (target 2:40, hard limit 2:50)
 
+> Superseded: the final package (edit list, captions, captures) is docs/video/README.md and docs/video/captions.srt.
+
 English voice-over (or English captions over silence). The video is rendered elsewhere from screen captures in `docs/video/`. Every shot shows the real app at https://plain-letter-hybrid.web.app.
 
 Captures still needed are marked **[CAPTURE]**. The on-device shots need real Google Chrome with Gemini Nano (pending access).

@@ -54,7 +54,7 @@ export interface LetterAI {
   /** Masked text only. ONLY_IN_CLOUD. */
   explainInCloud(maskedLetter: string, outputLang: string): Promise<RunResult>;
   /** Private-person names, found on device (used to strengthen masking). */
-  findNamesOnDevice(letter: string, letterLang: string): Promise<string[]>;
+  findNamesOnDevice(letter: string, letterLang: string, onPart?: (done: number, total: number) => void): Promise<string[]>;
   /** Text from a photo, read on device. The image never leaves. */
   transcribeOnDevice(image: Blob): Promise<string>;
 }

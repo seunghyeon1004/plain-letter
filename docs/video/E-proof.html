@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>What we checked</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fdfdfb;color:#151515;font:22px/1.45 Epilogue,system-ui,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:70px 80px}
+h1{font-size:46px;letter-spacing:-.035em;margin:0 0 30px}
+dl{margin:0;display:grid;grid-template-columns:330px 1fr;border-top:1px solid #151515}
+dt,dd{margin:0;padding:16px 0;border-bottom:1px solid #dcdcd8}dt{font-weight:700}dd{color:#333}
+code{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.85em}
+p{margin:28px 0 0;color:#333;font-size:18px}
+</style></head><body><div class="wrap">
+<h1>What we checked</h1>
+<dl>
+<dt>Masking</dt><dd>49 unit and property tests, including <code>restore(mask(x)) === x</code> for any text</dd>
+<dt>The ledger</dt><dd>End-to-end tests: the cloud request contains none of the personal details and equals the ledger byte for byte</dd>
+<dt>The naive mode</dt><dd>A test proves <code>PREFER_ON_DEVICE</code> sends the raw letter when there is no on-device model</dd>
+<dt>Real Gemini Nano</dt><dd>Chrome 157: 23.5 of 24 answer fields right, every name found, 43 of 45 key fields read from photos</dd>
+<dt>Everything else</dt><dd>29 browser tests: offline, quota and App Check errors, keyboard only, phone, no serious accessibility issues</dd>
+</dl>
+<p>Details: docs/MEASUREMENTS.md and the tests in github.com/seunghyeon1004/plain-letter</p>
+</div></body></html>

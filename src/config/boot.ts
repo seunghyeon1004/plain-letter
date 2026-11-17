@@ -7,6 +7,8 @@ export interface Boot {
   ai: LetterAI;
   cfg: RuntimeConfig;
   mode: "firebase" | "demo";
+  /** Resolves when Remote Config values are applied to `cfg` (or defaults are kept). */
+  configReady: Promise<void>;
   /** Why demo mode, if it is. */
   note?: string;
 }
@@ -26,6 +28,7 @@ export async function boot(params: URLSearchParams): Promise<Boot> {
       ai: FakeLetterAI.fromUrl(params),
       cfg: { ...DEFAULT_CONFIG },
       mode: "demo",
+      configReady: Promise.resolve(),
       note: FIREBASE_CONFIG ? "Demo mode was requested in the address." : "No Firebase project is configured in this build.",
     };
   }
@@ -40,14 +43,15 @@ export async function boot(params: URLSearchParams): Promise<Boot> {
       new CustomProvider({ getToken: () => Promise.reject(new Error("No App Check provider configured")) });
   initializeAppCheck(app, { provider, isTokenAutoRefreshEnabled: true });
 
-  const cfg = await loadRemoteConfig(app);
+  // Remote Config loads in the background; the app starts with defaults and never waits on the network.
+  const cfg: RuntimeConfig = { ...DEFAULT_CONFIG };
+  const configReady = loadRemoteConfig(app, cfg);
   const { FirebaseLetterAI } = await import("../ai/firebase");
-  return { ai: new FirebaseLetterAI(app, cfg), cfg, mode: "firebase" };
+  return { ai: new FirebaseLetterAI(app, cfg), cfg, mode: "firebase", configReady };
 }
 
-async function loadRemoteConfig(app: import("firebase/app").FirebaseApp): Promise<RuntimeConfig> {
-  const cfg: RuntimeConfig = { ...DEFAULT_CONFIG };
-  if (!navigator.onLine) return cfg;
+async function loadRemoteConfig(app: import("firebase/app").FirebaseApp, cfg: RuntimeConfig): Promise<void> {
+  if (!navigator.onLine) return;
   try {
     const { getRemoteConfig, fetchAndActivate, getValue } = await import("firebase/remote-config");
     const rc = getRemoteConfig(app);
@@ -67,5 +71,4 @@ async function loadRemoteConfig(app: import("firebase/app").FirebaseApp): Promis
   } catch {
     // Defaults are fine; Remote Config only tunes them.
   }
-  return cfg;
 }

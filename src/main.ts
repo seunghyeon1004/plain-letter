@@ -138,10 +138,10 @@ async function updatePreview() {
   if (route.path === "device") msg = `${subject} will be read on this device. Nothing will be sent.`;
   else if (route.path === "local-only") msg = `${subject} will stay on this device. No model is available right now, so you will get the dates, amounts and requests simple rules can find.`;
   else
-    msg = `${subject} will not be read on this device: ${route.reasons[0]?.replace(/\.$/, "").replace(/^This /, "this ").replace(/^The /, "the ") ?? "the on-device model is not available"}. Plain Letter will hide your personal details first and show you the masked copy. Nothing is sent until you approve it.`;
+    msg = `${subject} will take the masked cloud path, because ${route.reasons[0]?.replace(/\.$/, "").replace(/^This /, "this ").replace(/^The /, "the ") ?? "the on-device model is not available"}. Plain Letter will hide your personal details first and show you the masked copy. Nothing is sent until you approve it.`;
   if (mode === "demo") msg += " (Demo mode: no AI model is used.)";
   pathText.textContent = msg;
-  els.form.dataset.path = route.path;
+  document.body.dataset.path = route.path;
 }
 
 function schedulePreview() {
@@ -445,7 +445,7 @@ function renderReview(r: ReviewState) {
       h(
         "p",
         { class: "help policy" },
-        "Hidden: names of people, home addresses, dates of birth, account, case and reference numbers, phone numbers and email addresses. Kept: the name of the organisation that sent the letter, deadlines and amounts, because the answer depends on them.",
+        "Hidden: names of people, addresses, dates of birth, account, case and reference numbers, phone numbers and email addresses. Kept: the name of the organisation that sent the letter, deadlines and amounts, because the answer depends on them.",
       ),
       allValues.size === 0 ? h("p", { class: "help" }, "Nothing was found to hide. Add anything personal below.") : null,
       h(
@@ -519,7 +519,8 @@ function cancelReview() {
 }
 
 async function sendMasked(r: ReviewState) {
-  const { ai } = await bootP;
+  const { ai, configReady } = await bootP;
+  await configReady; // the cloud model name may come from Remote Config
   const m = currentMask(r);
   const run = pendingRun ?? startRun("cloud-masked", r.text);
   pendingRun = null;
@@ -629,7 +630,10 @@ async function prepareMasked(text: string, letterLang: string, outputLang: strin
   let names: string[] = [];
   if (route.masker === "device+patterns") {
     try {
-      names = await ai.findNamesOnDevice(text, letterLang);
+      const working = els.answer.querySelector(".working");
+      names = await ai.findNamesOnDevice(text, letterLang, (done, total) => {
+        if (working && total > 1) working.textContent = `Finding personal details on this device: part ${done + 1} of ${total}`;
+      });
     } catch {
       names = [];
     }

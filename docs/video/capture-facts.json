@@ -1,0 +1,32 @@
+{
+  "at": "2026-11-17T06:38:45.023Z",
+  "A": {
+    "runs": [
+      {
+        "path": "device",
+        "inferenceSource": "on_device"
+      }
+    ],
+    "letterRequests": [],
+    "networkLog": []
+  },
+  "B": {
+    "runs": [
+      {
+        "path": "cloud-masked",
+        "inferenceSource": "in_cloud"
+      }
+    ],
+    "letterRequests": [
+      {
+        "url": "firebasevertexai.googleapis.com/v1beta/projects/plain-letter-hybrid/models/gemini-3.5-flash-lite:generateContent",
+        "status": 200,
+        "bytes": 36774
+      }
+    ],
+    "networkLog": [
+      "OPTIONS firebasevertexai.googleapis.com/v1beta/projects/plain-letter-hybrid/models/gemini-3.5-flash…",
+      "POST firebasevertexai.googleapis.com/v1beta/projects/plain-letter-hybrid/models/gemini-3.5-flash…"
+    ]
+  }
+}

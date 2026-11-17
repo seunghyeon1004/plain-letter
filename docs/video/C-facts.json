@@ -1,0 +1,17 @@
+{
+  "naiveSource": "in_cloud",
+  "leaksNaive": [
+    "Maria Elena Okafor",
+    "Okafor",
+    "14 Larkspur Lane, Apt 3B",
+    "Eastmere, OR 97998",
+    "HPM-55120-3B",
+    "(541) 555-0187",
+    "(541) 555-0142",
+    "leasing@harrowgate-pm.example",
+    "Jordan Reyes"
+  ],
+  "leaksApp": [],
+  "naiveBodyBytes": 1240,
+  "appBodyBytes": 2682
+}

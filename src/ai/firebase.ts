@@ -150,10 +150,12 @@ export class FirebaseLetterAI implements LetterAI {
     }
   }
 
-  async findNamesOnDevice(letter: string, letterLang: string): Promise<string[]> {
+  async findNamesOnDevice(letter: string, letterLang: string, onPart?: (done: number, total: number) => void): Promise<string[]> {
     const model = this.deviceModel("names", letterLang, "en");
     const found = new Set<string>();
-    for (const part of chunk(letter, this.cfg.nameChunkChars)) {
+    const parts = chunk(letter, this.cfg.nameChunkChars);
+    for (const [i, part] of parts.entries()) {
+      onPart?.(i, parts.length);
       try {
         const r = await this.run(model, namesPrompt(part), "on_device");
         for (const n of parseNames(r.text, letter)) found.add(n);

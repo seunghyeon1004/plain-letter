@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Naive PREFER_ON_DEVICE (test fixture, not part of the app)</title></head>
+<body>
+<p>Test fixture: what a naive hybrid app would send. Not deployed.</p>
+<pre id="out"></pre>
+<script type="module">
+  // The shortest "hybrid" implementation: one model, PREFER_ON_DEVICE, the raw letter.
+  import { initializeApp } from "firebase/app";
+  import { getAI, getGenerativeModel, GoogleAIBackend, InferenceMode } from "firebase/ai";
+  import { RENT_NOTICE } from "/src/samples/letters.ts";
+  const app = initializeApp(JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG ?? '{"apiKey":"x","projectId":"x","appId":"1:0:web:0"}'));
+  const model = getGenerativeModel(getAI(app, { backend: new GoogleAIBackend() }), { mode: InferenceMode.PREFER_ON_DEVICE });
+  window.runNaive = async () => {
+    const r = await model.generateContent(`Explain this letter in plain Spanish.\n\n${RENT_NOTICE.text}`);
+    return r.response.inferenceSource;
+  };
+  window.naiveReady = true;
+</script>
+</body>
+</html>

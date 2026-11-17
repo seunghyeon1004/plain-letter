@@ -1,0 +1,56 @@
+1
+00:00:00,000 --> 00:00:08,000
+Official letters carry your name, address and account number.
+
+2
+00:00:08,000 --> 00:00:16,000
+Pasting one into a cloud chatbot hands all of that over.
+
+3
+00:00:16,000 --> 00:00:30,000
+Firebase AI Logic can run Gemini on your device. But in PREFER_ON_DEVICE mode, if this browser has no model, the SDK sends the raw letter to the cloud: 9 of 9 details.
+
+4
+00:00:30,000 --> 00:00:38,000
+Plain Letter never does. The cloud only ever gets a masked copy you approved: 0 of 9.
+
+5
+00:00:38,000 --> 00:00:46,000
+In Chrome with Gemini Nano, the letter is read on this device.
+
+6
+00:00:46,000 --> 00:00:55,000
+Reading on device. Chrome's network log (bottom right) stays at 0 requests.
+
+7
+00:00:55,000 --> 00:01:05,000
+The answer, in Spanish: what it is, what to do, by when, what if you do nothing. Nothing was sent.
+
+8
+00:01:05,000 --> 00:01:13,000
+A six-page letter is too long for the on-device model.
+
+9
+00:01:13,000 --> 00:01:20,000
+So Plain Letter hides personal details first, on the device.
+
+10
+00:01:20,000 --> 00:01:38,000
+You see exactly what would be sent. Names, address, case number, date of birth: replaced. Deadlines and amounts stay.
+
+11
+00:01:38,000 --> 00:01:50,000
+Only after you press Send does anything leave. Gemini in the cloud answers; your details are put back on your device.
+
+12
+00:01:50,000 --> 00:02:08,000
+The ledger shows the exact request body. One request in Chrome's log. Our tests check that the two are identical and contain none of your details.
+
+13
+00:02:08,000 --> 00:02:25,000
+Tested: masking, the ledger, the naive mode. Measured on real Gemini Nano: 23.5 of 24 answer fields right, every name found.
+
+14
+00:02:25,000 --> 00:02:38,000
+Plain Letter. Understand a letter without handing it over.
+

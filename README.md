@@ -22,6 +22,16 @@ With `InferenceMode.PREFER_ON_DEVICE`, the SDK falls back to the cloud on its ow
 
 The app makes the routing decision itself, from the model's availability, a token budget inside the 9,216-token on-device window, and the input and output languages. It then checks `response.inferenceSource` after every call (a privacy invariant: raw text must come back `on_device`).
 
+## Verify our claims yourself (5 minutes)
+
+1. Open https://plain-letter-hybrid.web.app with DevTools > Network open. Before you press anything, the page says which path your browser will take.
+2. Choose **Sample: Rent increase notice** and press **Read this letter**. With an on-device model, the Network panel stays empty. Without one, nothing is sent until you press **Send this masked copy**; then exactly one `generateContent` request appears.
+3. Compare that request's payload with **What left this device > Exact request body**: they are identical, and the name, address and account number are placeholders.
+4. Clone the repo and run `npm install && npm test && npx playwright install chromium && npm run e2e`. The tests include `tests/e2e/ledger.spec.ts` (request body equals the ledger, no personal details) and `tests/e2e/naive.spec.ts` (`PREFER_ON_DEVICE` sends the raw letter; Plain Letter does not).
+5. Firebase AI Logic is called in `src/ai/firebase.ts`: `ONLY_ON_DEVICE` models at line 79, the `ONLY_IN_CLOUD` model at line 92, `initializeDeviceModel` at line 111, `generateContent` at line 118, and the `inferenceSource` check at line 122. App Check is set up in `src/config/boot.ts:44` and Remote Config in `src/config/boot.ts:66`.
+
+Real Gemini Nano measurements, and their limits, are in [docs/MEASUREMENTS.md](docs/MEASUREMENTS.md).
+
 ## Where Firebase AI Logic is called
 
 - `src/ai/firebase.ts` uses `getAI`, `GoogleAIBackend`, `getGenerativeModel` with `InferenceMode.ONLY_ON_DEVICE` / `ONLY_IN_CLOUD`, `initializeDeviceModel`, and `generateContent` with structured output: `onDeviceParams.promptOptions.responseConstraint` on device, `responseMimeType` + `responseSchema` in the cloud. It reads `inferenceSource` on every response.
@@ -47,7 +57,11 @@ Demo mode (`?ai=demo`) uses a rule-based stand-in and labels itself as such. It 
 
 For the real on-device model, use **Google Chrome on desktop, version 139 or later**: macOS 13+, Windows 10/11 or Linux, about 22 GB free disk, and a GPU with more than 4 GB VRAM or 16 GB RAM. Press **Prepare the private reader** once to download the model.
 
-<!-- Testing instructions for judges, the hosted URL and the console setup are added when the Firebase project is live. -->
+### Limits, plainly
+- The on-device model runs only in desktop Google Chrome (139 or later) with enough disk space and memory. Other browsers and phones use the masked cloud path.
+- The on-device model writes only English, Spanish, German, French and Japanese. Other reader languages use the masked cloud path.
+- Photo reading was measured on synthetic photos only; real phone photos are not measured.
+- Masking is pattern-based plus on-device name finding. It can miss something, which is why you review the masked copy before anything is sent.
 
 ## Sample letters
 

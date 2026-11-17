@@ -34,18 +34,6 @@
             <input type="radio" name="kind" id="kind-photo" value="photo" /><label for="kind-photo">Photo</label>
           </fieldset>
 
-          <div class="field" id="text-field">
-            <label class="label" for="letter">Paste the letter</label>
-            <textarea id="letter" name="letter" rows="12" spellcheck="false" autocomplete="off" placeholder="Paste the text of the letter here"></textarea>
-            <p class="help" id="letter-help">Nothing is sent anywhere until you say so.</p>
-          </div>
-
-          <div class="field" id="photo-field" hidden>
-            <label class="label" for="photo">A photo of the letter (JPEG or PNG)</label>
-            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png" />
-            <p class="help" id="photo-help">The photo is read on this device and never leaves it.</p>
-          </div>
-
           <div class="row">
             <div class="field">
               <label class="label" for="sample">Or try a sample letter</label>
@@ -58,10 +46,18 @@
               <select id="lang" name="lang" autocomplete="language"></select>
             </div>
           </div>
-          <div class="path-preview" id="path-preview" aria-live="polite">
-            <p id="path-text">Checking what this browser can do</p>
-            <button class="link-btn" type="button" id="recording-btn">See a recorded on-device run</button>
+          <div class="field" id="text-field">
+            <label class="label" for="letter">Paste the letter</label>
+            <textarea id="letter" name="letter" rows="8" spellcheck="false" autocomplete="off" placeholder="Paste the text of the letter here"></textarea>
+            <p class="help" id="letter-help">Nothing is sent anywhere until you say so.</p>
           </div>
+
+          <div class="field" id="photo-field" hidden>
+            <label class="label" for="photo">A photo of the letter (JPEG or PNG)</label>
+            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png" />
+            <p class="help" id="photo-help">The photo is read on this device and never leaves it.</p>
+          </div>
+
           <div class="actions">
             <button class="btn btn--primary" type="submit" id="read-btn">Read this letter</button>
             <button class="btn btn--quiet" type="button" id="clear-btn">Clear</button>
@@ -71,6 +67,10 @@
 
       <section class="pane pane--answer" aria-labelledby="answer-h">
         <h2 id="answer-h">In plain words</h2>
+        <div class="path-preview" id="path-preview">
+          <p id="path-text" aria-live="polite">Checking what this browser can do</p>
+          <button class="link-btn" type="button" id="recording-btn">See a recorded on-device run</button>
+        </div>
         <div id="answer" class="answer" aria-live="polite" aria-busy="false">
           <p class="empty">Paste a letter or pick a sample. The answer appears here, with where it was read.</p>
         </div>
