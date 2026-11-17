@@ -14,7 +14,7 @@ Web (Chrome)
 
 ## Links
 - Hosted app: https://plain-letter-hybrid.web.app
-- On-device check page: https://plain-letter-hybrid.web.app/verify.html
+- On-device check page: https://plain-letter-hybrid.web.app/verify
 - Code: https://github.com/seunghyeon1004/plain-letter (Apache-2.0)
 - Video: https://youtu.be/vA1_Q0pbYMQ
 
@@ -62,7 +62,8 @@ On the three sample letters in real Chrome, Nano got 23.5 of 24 answer fields ri
 ## Accomplishments we are proud of
 - The privacy promise is **shown, not claimed**: the reader sees the exact bytes that left the device.
 - Raw letter text can only go to an `ONLY_ON_DEVICE` model. That is enforced in code and covered by tests.
-- 49 unit and property tests, and 19 end-to-end tests including axe accessibility (0 serious violations), keyboard-only use, a phone viewport and offline.
+- A test proves the point every run: on the same sample letter, a one-model `PREFER_ON_DEVICE` app sends 9 of 9 personal details to the cloud when the browser has no on-device model; Plain Letter sends 0.
+- 49 unit and property tests, and 29 end-to-end tests including axe accessibility (0 serious violations), keyboard-only use, a phone viewport and offline.
 
 ## What we learned
 Hybrid inference is more than a fallback. The choice between `PREFER_ON_DEVICE` and two explicit modes is a product decision about whose data goes where.
