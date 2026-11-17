@@ -1,0 +1,8 @@
+{
+  "parameters": {
+    "cloud_model": { "defaultValue": { "value": "gemini-3.5-flash-lite" }, "description": "Cloud model for masked letters (Gemini Developer API, billing not required)", "valueType": "STRING" },
+    "device_budget_tokens": { "defaultValue": { "value": "6000" }, "description": "Input-token budget for the on-device model (window 9216)", "valueType": "NUMBER" },
+    "chars_per_token": { "defaultValue": { "value": "4" }, "description": "Characters per token for the length estimate", "valueType": "NUMBER" },
+    "name_chunk_chars": { "defaultValue": { "value": "6000" }, "description": "Chunk size for on-device name finding", "valueType": "NUMBER" }
+  }
+}
