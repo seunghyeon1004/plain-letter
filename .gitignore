@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.secrets/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+.firebase/
+*.log
+results/real-chrome-*.json

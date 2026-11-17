@@ -1,0 +1,8 @@
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  build: { target: "es2022", sourcemap: true },
+  server: { host: "127.0.0.1", port: 5190, strictPort: true },
+  preview: { host: "127.0.0.1", port: 5191, strictPort: true },
+  test: { include: ["tests/unit/**/*.test.ts"], environment: "node" },
+});

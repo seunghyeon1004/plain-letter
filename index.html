@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plain Letter: understand an official letter without handing it over</title>
+    <meta name="description" content="Plain Letter explains official letters in plain words. It reads them on your device, and when it needs the cloud it sends only a masked copy you have checked." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#letter">Skip to the letter</a>
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="wordmark" href="/" aria-label="Plain Letter, home">Plain Letter</a>
+        <div class="bar__status" aria-live="polite">
+          <span class="tag" id="device-pill">Checking this device</span>
+          <span class="tag" id="net-pill">Online</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell" id="main">
+      <div class="intro">
+        <h1>Understand a letter without handing it over.</h1>
+        <p class="lead">Plain Letter reads official letters on your device. If it needs the cloud, it sends only a masked copy you have checked first.</p>
+      </div>
+
+      <section class="pane pane--letter" aria-labelledby="letter-h">
+        <h2 id="letter-h">Your letter</h2>
+        <form id="letter-form" class="stack" novalidate>
+          <fieldset class="seg" id="input-kind">
+            <legend class="label">How do you have it?</legend>
+            <input type="radio" name="kind" id="kind-text" value="text" checked /><label for="kind-text">Text</label>
+            <input type="radio" name="kind" id="kind-photo" value="photo" /><label for="kind-photo">Photo</label>
+          </fieldset>
+
+          <div class="field" id="text-field">
+            <label class="label" for="letter">Paste the letter</label>
+            <textarea id="letter" name="letter" rows="12" spellcheck="false" autocomplete="off" placeholder="Paste the text of the letter here"></textarea>
+            <p class="help" id="letter-help">Nothing is sent anywhere until you say so.</p>
+          </div>
+
+          <div class="field" id="photo-field" hidden>
+            <label class="label" for="photo">A photo of the letter (JPEG or PNG)</label>
+            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png" />
+            <p class="help" id="photo-help">The photo is read on this device and never leaves it.</p>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="sample">Or try a sample letter</label>
+              <select id="sample" name="sample">
+                <option value="">Choose a sample</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label" for="lang">Explain it in</label>
+              <select id="lang" name="lang" autocomplete="language"></select>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn--primary" type="submit" id="read-btn">Read this letter</button>
+            <button class="btn btn--quiet" type="button" id="clear-btn">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="pane pane--answer" aria-labelledby="answer-h">
+        <h2 id="answer-h">In plain words</h2>
+        <div id="answer" class="answer" aria-live="polite" aria-busy="false">
+          <p class="empty">Paste a letter or pick a sample. The answer appears here, with where it was read.</p>
+        </div>
+        <noscript><p class="empty">Plain Letter needs JavaScript: the reading happens in your browser.</p></noscript>
+      </section>
+
+      <section class="ledger" aria-labelledby="ledger-h">
+        <div class="ledger__head">
+          <h2 id="ledger-h">What left this device</h2>
+          <p class="help" id="ledger-summary">Every request this page makes is listed here with its exact body.</p>
+        </div>
+        <ol class="ruled ledger__runs" id="ledger-runs"></ol>
+        <details class="ledger__other" id="ledger-other">
+          <summary>Other traffic, with no letter text (<span id="other-count">0</span>)</summary>
+          <ol class="ruled" id="ledger-other-list"></ol>
+        </details>
+      </section>
+
+      <section class="why" aria-labelledby="why-h">
+        <h2 id="why-h">Why not just let the SDK choose?</h2>
+        <p>Firebase AI Logic has a mode, <code>PREFER_ON_DEVICE</code>, that falls back to the cloud on its own. If the on-device model were missing or still downloading, that mode would have sent your whole letter to the cloud. Plain Letter never does that: it uses <code>ONLY_ON_DEVICE</code> for your letter, and the cloud model only ever gets the masked copy you approved.</p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot__inner">
+        <p>Plain Letter explains letters. It is not legal advice. The sample letters are invented, and any likeness to real people or reference numbers is accidental.</p>
+        <p><a href="https://github.com/seunghyeon1004/plain-letter">Source code</a>, Apache-2.0.</p>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
