@@ -29,11 +29,19 @@ test("a reader language the device cannot write goes to review, not to the cloud
   await expect(page.getByTestId("masked-preview")).toBeVisible();
 });
 
-test("photo without an on-device model asks for text and uploads nothing", async ({ page }) => {
+test("photo without an on-device model: read locally without AI, and the photo is never uploaded", async ({ page }) => {
+  const outside: string[] = [];
+  page.on("request", (r) => {
+    if (!r.url().startsWith("http://127.0.0.1") && !r.url().startsWith("data:") && !r.url().startsWith("blob:")) outside.push(r.url());
+  });
   await page.goto("/?ai=demo&fakeDevice=no-api");
   await page.check("#kind-photo", { force: true });
-  await page.setInputFiles("#photo", { name: "letter.png", mimeType: "image/png", buffer: Buffer.from("89504e470d0a1a0a", "hex") });
-  await expect(page.locator("#photo-help")).toContainText("never uploaded");
+  await page.setInputFiles("#photo", "tests/e2e/assets/rent-letter.png");
+  await expect(page.locator("#photo-help")).toContainText("will not be uploaded");
+  await page.click("#ocr-btn");
+  await expect(page.locator("#letter")).toHaveValue(/April 1, 2026/, { timeout: 30_000 });
+  await expect(page.locator("#letter")).toHaveValue(/Okafor/);
+  expect(outside).toEqual([]);
 });
 
 test("empty submit explains what to do", async ({ page }) => {

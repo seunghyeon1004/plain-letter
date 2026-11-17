@@ -572,25 +572,52 @@ els.photo.addEventListener("change", async () => {
     els.photoHelp.textContent = "Please choose a JPEG or PNG photo.";
     return;
   }
-  const state = await ai.deviceState("unknown", "en", true);
-  if (state !== "available") {
-    els.photoHelp.textContent =
-      "Reading a photo needs the on-device model, which is not ready here. Your photo stays on this device and is never uploaded. Please type or paste the text instead.";
-    return;
-  }
-  els.photoHelp.textContent = "Reading the photo on this device";
-  try {
-    const text = await ai.transcribeOnDevice(file);
-    if (!text) throw new Error("empty");
+  const useText = (text: string, how: string) => {
     els.letter.value = text;
     (document.getElementById("kind-text") as HTMLInputElement).checked = true;
     showKind("text");
-    (document.getElementById("letter-help") as HTMLElement).textContent = "Read from your photo on this device. Check the text, then press Read this letter.";
+    (document.getElementById("letter-help") as HTMLElement).textContent = `${how} Check the text against the photo, then press Read this letter.`;
     els.letter.focus();
-  } catch {
-    els.photoHelp.textContent = "The photo could not be read on this device. Please type or paste the text instead.";
+  };
+  const state = await ai.deviceState("unknown", "en", true);
+  if (state === "available") {
+    els.photoHelp.textContent = "Reading the photo with the on-device model";
+    try {
+      const text = await ai.transcribeOnDevice(file);
+      if (!text) throw new Error("empty");
+      return useText(text, "Read from your photo by the on-device model.");
+    } catch {
+      // fall through to local text recognition
+    }
   }
+  offerLocalOcr(file, useText);
 });
+
+/** The photo never goes to the cloud: without a working on-device model, offer local text recognition (no AI). */
+function offerLocalOcr(file: File, useText: (text: string, how: string) => void) {
+  const help = els.photoHelp;
+  const btn = h("button", { class: "btn btn--quiet", type: "button", id: "ocr-btn" }, "Read the photo here, without AI");
+  clear(
+    help,
+    "There is no on-device model to read this photo, and it will not be uploaded. Plain Letter can read the text with simple text recognition in this browser (about 7 MB, downloaded once from this site), or you can type or paste the text.",
+  );
+  help.after(btn);
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    help.textContent = "Reading the text in your photo, in this browser";
+    try {
+      const { recognizeLocally } = await import("./ocr/local");
+      const text = await recognizeLocally(file, (f) => (help.textContent = `Reading the text in your photo, in this browser: ${Math.round(f * 100)}%`));
+      btn.remove();
+      if (!text) throw new Error("empty");
+      useText(text, "Read from your photo by text recognition in this browser.");
+      help.textContent = "The photo was read in this browser and not uploaded.";
+    } catch {
+      btn.disabled = false;
+      help.textContent = "The text could not be read from this photo. Please type or paste it instead.";
+    }
+  });
+}
 
 // ---------- submit ----------
 

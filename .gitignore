@@ -9,3 +9,6 @@ playwright-report/
 .firebase/
 *.log
 results/real-chrome-*.json
+public/ocr/
+.chrome-profile/
+results/

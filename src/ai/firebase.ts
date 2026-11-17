@@ -130,7 +130,7 @@ export class FirebaseLetterAI implements LetterAI {
     try {
       return { explanation: parseExplanation(r.text), source: r.source, ms: r.ms };
     } catch (e) {
-      throw new LetterAIError("device-bad-output", "The on-device model did not return a usable answer.", e);
+      throw new LetterAIError("device-bad-output", "The on-device model did not return a usable answer.", { raw: r.text.slice(0, 800), parseError: String(e) });
     }
   }
 

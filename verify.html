@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plain Letter: on-device check</title>
+    <meta name="description" content="Runs the sample letters through the on-device model and saves the results as JSON." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="shell verify">
+      <div class="intro">
+        <h1>On-device check</h1>
+        <p class="lead">Runs the invented sample letters through Firebase AI Logic in ONLY_ON_DEVICE mode, records each answer, and saves the results as a JSON file. Nothing is sent anywhere.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn--quiet" type="button" id="prepare">1. Prepare the on-device model</button>
+        <button class="btn btn--primary" type="button" id="run">2. Run all checks</button>
+        <a class="btn btn--quiet" id="save" hidden download="plain-letter-on-device.json">3. Save results</a>
+      </div>
+      <progress id="progress" max="100" value="0" aria-label="Model download"></progress>
+      <pre class="code" id="log" aria-live="polite"></pre>
+    </main>
+    <script type="module" src="/src/verify.ts"></script>
+  </body>
+</html>

@@ -10,12 +10,17 @@
     "preview": "vite preview",
     "test": "vitest run",
     "e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "predev": "node scripts/copy-ocr.mjs",
+    "prebuild": "node scripts/copy-ocr.mjs",
+    "pree2e": "node scripts/copy-ocr.mjs"
   },
   "dependencies": {
     "@fontsource/epilogue": "5.2.8",
     "@fontsource/ibm-plex-mono": "5.2.7",
-    "firebase": "13.3.0"
+    "@tesseract.js-data/eng": "1.0.0",
+    "firebase": "13.3.0",
+    "tesseract.js": "6.0.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",

@@ -53,7 +53,8 @@ export function installRecorder(win: Window & typeof globalThis = window): void 
   win.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
     const raw = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
     const url = new URL(raw, win.location.href);
-    if (url.origin === win.location.origin) return original(input, init);
+    // Same-origin assets and in-memory data: or blob: URLs never leave the device.
+    if (url.origin === win.location.origin || !/^https?:$/.test(url.protocol)) return original(input, init);
     const kind = classify(url);
     const text = await bodyText(input, init);
     const entry: LedgerEntry = {
