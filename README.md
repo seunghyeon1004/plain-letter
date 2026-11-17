@@ -2,6 +2,8 @@
 
 **Understand an official letter without handing it over.**
 
+Demo video: https://youtu.be/vA1_Q0pbYMQ · Live app: https://plain-letter-hybrid.web.app
+
 Official letters (rent increases, tax and benefit decisions, insurance reminders, school notices) are hard to read in a second language or under stress. They also carry exactly the details you should not paste into a cloud chatbot: your name, address, date of birth, and account and case numbers.
 
 Plain Letter answers four questions in plain words, in the reader's language: *what is this, what must I do, by when, and what happens if I do nothing*. It adds a few questions to ask. It uses Firebase AI Logic hybrid inference as a **privacy boundary**:

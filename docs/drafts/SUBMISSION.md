@@ -16,7 +16,7 @@ Web (Chrome)
 - Hosted app: https://plain-letter-hybrid.web.app
 - On-device check page: https://plain-letter-hybrid.web.app/verify.html
 - Code: https://github.com/seunghyeon1004/plain-letter (Apache-2.0)
-- Video: (YouTube link, to add)
+- Video: https://youtu.be/vA1_Q0pbYMQ
 
 ## Inspiration
 A letter from a landlord, a benefits office, an insurer or a school is often the most important thing someone reads that week, and the hardest. It is written in formal language, sometimes in a language that is not the reader's own, and it arrives when the reader is already worried. The usual advice is "paste it into a chatbot". But that letter carries exactly what you should not hand over: your name, address, date of birth, and account and case numbers.
