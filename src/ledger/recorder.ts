@@ -9,7 +9,7 @@ export interface LedgerEntry {
   method: string;
   host: string;
   path: string;
-  kind: "letter" | "app-check" | "config" | "other";
+  kind: "letter" | "app-check" | "config" | "other" | "file";
   /** Exact request body as sent, or a note when it is not shown. */
   body: string;
   bodyShown: boolean;
@@ -81,6 +81,44 @@ export function installRecorder(win: Window & typeof globalThis = window): void 
       throw e;
     }
   };
+}
+
+/**
+ * Files the page loads from other sites (scripts, styles, images) do not go
+ * through fetch. They carry no body; they are listed by address so the ledger
+ * covers them too. Requests made inside third-party frames (the reCAPTCHA
+ * frame) are not visible to this page.
+ */
+export function watchFileLoads(win: Window & typeof globalThis = window): void {
+  if (!("PerformanceObserver" in win)) return;
+  const seen = new Set<string>();
+  const take = (list: PerformanceEntryList) => {
+    for (const e of list as PerformanceResourceTiming[]) {
+      if (e.initiatorType === "fetch" || e.initiatorType === "xmlhttprequest") continue;
+      let url: URL;
+      try {
+        url = new URL(e.name);
+      } catch {
+        continue;
+      }
+      if (url.origin === win.location.origin || !/^https?:$/.test(url.protocol) || seen.has(e.name)) continue;
+      seen.add(e.name);
+      entries.push({
+        id: nextId++,
+        at: new Date(),
+        method: "GET",
+        host: url.host,
+        path: url.pathname,
+        kind: "file",
+        body: `File download (${e.initiatorType}); no request body.`,
+        bodyShown: true,
+        status: e.responseStatus || undefined,
+      });
+    }
+    emit();
+  };
+  take(win.performance.getEntriesByType("resource"));
+  new PerformanceObserver((l) => take(l.getEntries())).observe({ type: "resource", buffered: false });
 }
 
 export function onLedger(l: Listener): () => void {

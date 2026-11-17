@@ -76,11 +76,12 @@
       <section class="ledger" aria-labelledby="ledger-h">
         <div class="ledger__head">
           <h2 id="ledger-h">What left this device</h2>
-          <p class="help" id="ledger-summary">Every request this page makes is listed here with its exact body.</p>
+          <p class="help" id="ledger-summary">Every request this page sends is listed here with its exact body, and every file it loads from another site by address.</p>
         </div>
         <ol class="ruled ledger__runs" id="ledger-runs"></ol>
         <details class="ledger__other" id="ledger-other">
           <summary>Other traffic, with no letter text (<span id="other-count">0</span>)</summary>
+          <p class="help">App Check, settings and file downloads. Requests inside Google's reCAPTCHA frame happen in that frame and are not visible to this page; they never receive the letter.</p>
           <ol class="ruled" id="ledger-other-list"></ol>
         </details>
       </section>

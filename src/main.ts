@@ -1,6 +1,7 @@
 // The recorder must be installed before Firebase loads, so it sees every request.
-import { installRecorder, lastLedgerId, ledgerSince, onLedger, promptFromBody, type LedgerEntry } from "./ledger/recorder";
+import { installRecorder, lastLedgerId, ledgerSince, onLedger, promptFromBody, watchFileLoads, type LedgerEntry } from "./ledger/recorder";
 installRecorder();
+watchFileLoads();
 
 import "@fontsource/epilogue/400.css";
 import "@fontsource/epilogue/600.css";
@@ -132,7 +133,7 @@ function renderLedger() {
   const sent = letterEntries.length;
   els.ledgerSummary.textContent =
     runs.length === 0
-      ? "Every request this page makes is listed here with its exact body."
+      ? "Every request this page sends is listed here with its exact body, and every file it loads from another site by address."
       : `${runs.length} ${runs.length === 1 ? "reading" : "readings"} so far. ${sent === 0 ? "No letter text has left this device." : `${sent} ${sent === 1 ? "request" : "requests"} carried masked letter text, shown in full below.`}`;
   clear(
     els.runs,

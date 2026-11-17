@@ -8,10 +8,17 @@ import type { FirebaseOptions } from "firebase/app";
  * VITE_FIREBASE_CONFIG (JSON) overrides it, which the end-to-end tests use
  * with a dummy project.
  */
-const COMMITTED: FirebaseOptions | null = null;
+const COMMITTED: FirebaseOptions | null = {
+  apiKey: "AIzaSyCqj67cv-MYrNs7xQbQJo2Gxec2usS5dpw",
+  authDomain: "plain-letter-hybrid.firebaseapp.com",
+  projectId: "plain-letter-hybrid",
+  storageBucket: "plain-letter-hybrid.firebasestorage.app",
+  messagingSenderId: "939713993365",
+  appId: "1:939713993365:web:7c4afbfb6a8a141ea1d99c",
+};
 
 /** reCAPTCHA Enterprise site key (public, bound to the hosting domains). */
-const COMMITTED_RECAPTCHA_SITE_KEY: string | null = null;
+const COMMITTED_RECAPTCHA_SITE_KEY: string | null = "6LdkVSQuAAAAAAo9_6pfBe1TLfWIhApN9zS2hKwM";
 
 function fromEnv(): FirebaseOptions | null {
   const raw = import.meta.env.VITE_FIREBASE_CONFIG as string | undefined;
