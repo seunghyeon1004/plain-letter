@@ -7,6 +7,8 @@ export interface FakeOptions {
   device: DeviceState;
   cloud: "ok" | "quota" | "app-check" | "error";
   delayMs: number;
+  /** Simulates a measured Gemini Nano failure: answering in English when asked for another language. */
+  deviceAnswer: "ok" | "wrong-language";
 }
 
 /**
@@ -26,6 +28,7 @@ export class FakeLetterAI implements LetterAI {
       device: (params.get("fakeDevice") as DeviceState) ?? "available",
       cloud: (params.get("fakeCloud") as FakeOptions["cloud"]) ?? "ok",
       delayMs: Number(params.get("fakeDelay") ?? 400),
+      deviceAnswer: (params.get("fakeDeviceAnswer") as FakeOptions["deviceAnswer"]) ?? "ok",
     });
   }
 
@@ -62,6 +65,7 @@ export class FakeLetterAI implements LetterAI {
   async explainOnDevice(letter: string): Promise<RunResult> {
     if (this.state !== "available") throw new LetterAIError("device-unavailable", "On-device model not ready.");
     await this.wait();
+    if (this.o.deviceAnswer === "wrong-language") throw new LetterAIError("device-wrong-language", "The on-device model answered in en.");
     return { explanation: this.explain(letter), source: "on_device", ms: this.o.delayMs };
   }
 

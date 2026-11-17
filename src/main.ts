@@ -145,7 +145,11 @@ function renderLedger() {
           ? h("span", { class: "tag tag--in" }, "Stayed on this device")
           : r.path === "local-only"
             ? h("span", { class: "tag tag--in" }, "Stayed on this device")
-            : h("span", { class: "tag tag--out" }, "Masked copy sent");
+            : r.endLedgerId === undefined
+              ? h("span", { class: "tag tag--out" }, "Not sent yet")
+              : entries.length
+                ? h("span", { class: "tag tag--out" }, "Masked copy sent")
+                : h("span", { class: "tag tag--in" }, "Nothing sent");
       return h(
         "li",
         { class: "run", "data-path": r.path },
@@ -277,6 +281,7 @@ const FAILURE_TEXT: Record<string, { title: string; body: string }> = {
   offline: { title: "You are offline", body: "The masked copy was not sent. Connect to the internet and send it again, or use the on-device reader." },
   "cloud-error": { title: "The cloud model did not answer", body: "Something went wrong on the way. The masked copy may have been sent; the ledger below shows exactly what was. Try again." },
   "device-unavailable": { title: "The on-device model is not ready", body: "Prepare the private reader, or let Plain Letter hide your details and use the cloud." },
+  "device-wrong-language": { title: "The on-device model answered in the wrong language", body: "Its answer was not shown. You can send a masked copy to the cloud instead." },
   "device-bad-output": { title: "The on-device model gave an unusable answer", body: "You can try again, or send a masked copy to the cloud instead." },
   "device-too-long": { title: "Too long for the on-device model", body: "Plain Letter can hide your details and send a masked copy instead." },
   "privacy-invariant": { title: "Stopped to protect your letter", body: "The reading did not happen where Plain Letter expected, so it stopped. Nothing else was done." },
@@ -537,8 +542,23 @@ async function readOnDevice(text: string, letterLang: string, outputLang: string
     renderResult(res.explanation, res, route, outputLang);
   } catch (err) {
     run.endLedgerId = lastLedgerId();
-    run.title += " (on-device failed)";
-    const fallback = { ...route, path: "cloud-masked" as const, reasons: [...route.reasons.filter((x) => !x.startsWith("Read on")), (err as Error).message] };
+    run.title += " (on-device answer not used)";
+    const kind = err instanceof LetterAIError ? err.kind : "";
+    const why =
+      kind === "device-wrong-language"
+        ? `The on-device model answered in the wrong language, so its answer was not shown.`
+        : kind === "device-bad-output"
+          ? "The on-device model did not give a complete answer, so it was not shown."
+          : kind === "device-too-long"
+            ? "The letter turned out too long for the on-device model."
+            : "";
+    const fallback = { ...route, path: "cloud-masked" as const, reasons: [...route.reasons.filter((x) => !x.startsWith("Read on")), why || (err as Error).message] };
+    if (why && navigator.onLine) {
+      // A weak on-device answer is never shown: go to the masked review instead (nothing is sent until the user confirms).
+      setBusy(false);
+      renderLedger();
+      return await prepareMasked(text, letterLang, outputLang, fallback);
+    }
     renderError(err, () => void readOnDevice(text, letterLang, outputLang, route), navigator.onLine ? { label: "Hide my details and use the cloud", run: () => void prepareMasked(text, letterLang, outputLang, fallback) } : undefined);
   } finally {
     setBusy(false);

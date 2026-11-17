@@ -50,3 +50,13 @@ test("empty submit explains what to do", async ({ page }) => {
   await expect(page.locator("#letter-help")).toHaveText("Paste a letter first, or choose a sample.");
   await expect(page.locator("#letter")).toBeFocused();
 });
+
+test("a weak on-device answer is never shown: it goes to the masked review instead", async ({ page }) => {
+  await page.goto("/?ai=demo&fakeDevice=available&fakeDeviceAnswer=wrong-language&lang=es");
+  await page.selectOption("#sample", "rent");
+  await page.click("#read-btn");
+  await expect(page.getByTestId("masked-preview")).toBeVisible();
+  await expect(page.locator(".reasons")).toContainText("answered in the wrong language");
+  await expect(page.locator(".run", { hasText: "on-device answer not used" })).toContainText("Stayed on this device");
+  await expect(page.locator(".run").first()).toContainText("Not sent yet");
+});

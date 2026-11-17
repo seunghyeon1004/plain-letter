@@ -21,6 +21,7 @@ export type AIFailure =
   | "device-unavailable"
   | "device-too-long"
   | "device-bad-output"
+  | "device-wrong-language"
   | "offline"
   | "quota"
   | "app-check"

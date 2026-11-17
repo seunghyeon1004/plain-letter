@@ -40,7 +40,8 @@ interface Check {
 
 function letterImage(text: string): Promise<Blob> {
   const c = document.createElement("canvas");
-  const ls = text.split("\n");
+  // Wrap to ~80 characters so the whole letter is in the picture.
+  const ls = text.split("\n").flatMap((l) => (l.length <= 80 ? [l] : l.match(/.{1,80}(\s|$)/g) ?? [l]));
   c.width = 1000;
   c.height = 40 + ls.length * 26;
   const g = c.getContext("2d")!;
@@ -50,7 +51,7 @@ function letterImage(text: string): Promise<Blob> {
   g.font = "18px Georgia, serif";
   ls.forEach((l, i) => {
     // wrap long lines
-    g.fillText(l.slice(0, 95), 30, 40 + i * 26);
+    g.fillText(l.trimEnd(), 30, 40 + i * 26);
   });
   return new Promise((r) => c.toBlob((b) => r(b!), "image/png"));
 }

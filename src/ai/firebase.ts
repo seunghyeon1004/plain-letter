@@ -13,7 +13,8 @@ import {
 import type { RuntimeConfig } from "../config/runtime";
 import type { DeviceState } from "../route/decide";
 import { deviceSupports } from "../route/language";
-import { chunk, EXPLANATION_JSON_SCHEMA, explainPrompt, NAMES_JSON_SCHEMA, namesPrompt, parseExplanation, parseNames, TRANSCRIBE_PROMPT } from "./prompt";
+import { guessLanguage } from "../route/language";
+import { chunk, EXPLANATION_JSON_SCHEMA, explainPrompt, explanationText, NAMES_JSON_SCHEMA, namesPrompt, parseExplanation, parseNames, TRANSCRIBE_PROMPT } from "./prompt";
 import { LetterAIError, type LetterAI, type RunResult, type Source } from "./types";
 
 type LMExpected = { type: "text" | "image"; languages?: string[] };
@@ -127,11 +128,17 @@ export class FirebaseLetterAI implements LetterAI {
 
   async explainOnDevice(letter: string, letterLang: string, outputLang: string): Promise<RunResult> {
     const r = await this.run(this.deviceModel("explain", letterLang, outputLang), explainPrompt(letter, outputLang, false), "on_device");
+    let explanation;
     try {
-      return { explanation: parseExplanation(r.text), source: r.source, ms: r.ms };
+      explanation = parseExplanation(r.text);
     } catch (e) {
       throw new LetterAIError("device-bad-output", "The on-device model did not return a usable answer.", { raw: r.text.slice(0, 800), parseError: String(e) });
     }
+    // Gemini Nano sometimes answers in English when asked for another language. Never show that as the answer.
+    const wrote = guessLanguage(explanationText(explanation));
+    if (wrote !== "unknown" && wrote !== outputLang)
+      throw new LetterAIError("device-wrong-language", `The on-device model answered in ${wrote} instead of ${outputLang}.`, { raw: r.text.slice(0, 800) });
+    return { explanation, source: r.source, ms: r.ms };
   }
 
   async explainInCloud(maskedLetter: string, outputLang: string): Promise<RunResult> {
