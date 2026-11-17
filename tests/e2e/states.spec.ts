@@ -60,3 +60,31 @@ test("a weak on-device answer is never shown: it goes to the masked review inste
   await expect(page.locator(".run", { hasText: "on-device answer not used" })).toContainText("Stayed on this device");
   await expect(page.locator(".run").first()).toContainText("Not sent yet");
 });
+
+test("before Read, the page says which path this browser will take", async ({ page }) => {
+  await page.goto("/?ai=demo&fakeDevice=available&lang=es");
+  await expect(page.locator("#path-text")).toContainText("will be read on this device");
+  await page.selectOption("#sample", "benefit");
+  await expect(page.locator("#path-text")).toContainText("too long for the on-device model");
+  await expect(page.locator("#path-text")).toContainText("Nothing is sent until you approve it");
+});
+
+test("no on-device model: the preview says so, and the recorded run is labelled as a recording", async ({ page }) => {
+  await page.goto("/?ai=demo&fakeDevice=no-api");
+  await expect(page.locator("#path-text")).toContainText("this browser has no on-device model");
+  await page.click("#recording-btn");
+  const dialog = page.getByRole("dialog", { name: "A recorded on-device run" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText("This is a recording, not a live answer.");
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+});
+
+test("the answer shows one disclaimer, in the reader's language", async ({ page }) => {
+  await page.goto("/?ai=demo&fakeDevice=available&lang=es");
+  await page.selectOption("#sample", "rent");
+  await page.click("#read-btn");
+  await expect(page.getByTestId("source-pill")).toBeVisible();
+  await expect(page.locator("#answer")).toContainText("Esto no es asesoramiento legal.");
+  await expect(page.locator("#answer")).not.toContainText("This is not legal advice");
+});

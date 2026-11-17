@@ -58,6 +58,10 @@
               <select id="lang" name="lang" autocomplete="language"></select>
             </div>
           </div>
+          <div class="path-preview" id="path-preview" aria-live="polite">
+            <p id="path-text">Checking what this browser can do</p>
+            <button class="link-btn" type="button" id="recording-btn">See a recorded on-device run</button>
+          </div>
           <div class="actions">
             <button class="btn btn--primary" type="submit" id="read-btn">Read this letter</button>
             <button class="btn btn--quiet" type="button" id="clear-btn">Clear</button>
@@ -92,6 +96,24 @@
         <p>Answers from the on-device model are checked before you see them. If it answers in the wrong language or leaves out part of the answer, that answer is not shown, and Plain Letter offers the masked cloud path instead.</p>
       </section>
     </main>
+
+    <dialog class="recording" id="recording" aria-labelledby="recording-h">
+      <div class="recording__inner">
+        <h2 id="recording-h">A recorded on-device run</h2>
+        <p>This is a recording, not a live answer. Google Chrome 157 on a Mac, 17 November 2026: the sample rent letter, explained in Spanish by Gemini Nano through Firebase AI Logic.</p>
+        <video controls preload="none" width="1440" height="900" poster="/media/on-device-run.jpg" aria-describedby="recording-facts">
+          <source src="/media/on-device-run.webm" type="video/webm" />
+          <track kind="captions" src="/media/on-device-run.vtt" srclang="en" label="English" default />
+        </video>
+        <dl class="facts" id="recording-facts">
+          <dt>Where it ran</dt><dd><code>inferenceSource: on_device</code></dd>
+          <dt>Requests while reading</dt><dd>0</dd>
+          <dt>Time</dt><dd>16.7 s from a cold start (4 to 6 s once warm)</dd>
+        </dl>
+        <p class="help">All measurements: <a href="https://github.com/seunghyeon1004/plain-letter/blob/main/docs/MEASUREMENTS.md">MEASUREMENTS.md</a>.</p>
+        <form method="dialog"><button class="btn btn--quiet" type="submit">Close</button></form>
+      </div>
+    </dialog>
 
     <footer class="foot">
       <div class="foot__inner">

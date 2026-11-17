@@ -76,3 +76,12 @@ test("quota and App Check failures are explained, and nothing is retried silentl
   await expect(page.locator("[data-error]")).toHaveAttribute("data-error", "app-check");
   expect(calls).toHaveLength(2);
 });
+
+test("the review says what is hidden and what is kept", async ({ page }) => {
+  await interceptGoogle(page);
+  await page.goto("/");
+  await page.selectOption("#sample", "rent");
+  await page.click("#read-btn");
+  await expect(page.locator(".policy")).toContainText("Kept: the name of the organisation that sent the letter");
+  await expect(page.getByTestId("masked-preview")).toContainText("Harrowgate Property Management");
+});

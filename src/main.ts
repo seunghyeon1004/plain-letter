@@ -58,12 +58,14 @@ els.sample.addEventListener("change", () => {
   showKind("text");
   els.letter.value = s.text;
   els.letter.focus();
+  schedulePreview();
 });
 els.clearBtn.addEventListener("click", () => {
   els.letter.value = "";
   els.sample.value = "";
   els.photo.value = "";
   renderEmpty();
+  schedulePreview();
   els.letter.focus();
 });
 for (const r of document.querySelectorAll<HTMLInputElement>('input[name="kind"]'))
@@ -111,6 +113,51 @@ async function refreshDevice(letterLang = "en", outputLang = els.lang.value) {
   renderDevicePill();
   return deviceState;
 }
+
+// ---------- path preview (what will happen before Read is pressed) ----------
+
+const pathText = $("#path-text");
+let previewTimer: number | undefined;
+
+async function updatePreview() {
+  const { cfg, mode } = await bootP;
+  const text = els.letter.value.trim();
+  const outputLang = els.lang.value;
+  const letterLang = text ? guessLanguage(text) : "unknown";
+  const device = await refreshDevice(letterLang === "unknown" ? "en" : letterLang, outputLang);
+  const route = decideRoute({
+    device,
+    online: navigator.onLine,
+    letterLang,
+    outputLang,
+    estTokens: text ? estimateTokens(text, cfg.charsPerToken) : 0,
+    deviceBudgetTokens: cfg.deviceBudgetTokens,
+  });
+  const subject = text ? "This letter" : "A letter";
+  let msg: string;
+  if (route.path === "device") msg = `${subject} will be read on this device. Nothing will be sent.`;
+  else if (route.path === "local-only") msg = `${subject} will stay on this device. No model is available right now, so you will get the dates, amounts and requests simple rules can find.`;
+  else
+    msg = `${subject} will not be read on this device: ${route.reasons[0]?.replace(/\.$/, "").replace(/^This /, "this ").replace(/^The /, "the ") ?? "the on-device model is not available"}. Plain Letter will hide your personal details first and show you the masked copy. Nothing is sent until you approve it.`;
+  if (mode === "demo") msg += " (Demo mode: no AI model is used.)";
+  pathText.textContent = msg;
+  els.form.dataset.path = route.path;
+}
+
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = window.setTimeout(() => void updatePreview(), 300);
+}
+els.letter.addEventListener("input", schedulePreview);
+addEventListener("online", schedulePreview);
+addEventListener("offline", schedulePreview);
+
+const recording = document.getElementById("recording") as HTMLDialogElement;
+$("#recording-btn").addEventListener("click", () => {
+  recording.showModal();
+  recording.querySelector("video")?.focus();
+});
+recording.addEventListener("close", () => recording.querySelector("video")?.pause());
 
 // ---------- ledger ----------
 
@@ -250,7 +297,6 @@ function renderResult(e: Explanation, run: RunResult, route: Route, outputLang: 
       ? h("div", { class: "questions", lang: outputLang, dir: isRtl(outputLang) ? "rtl" : undefined }, h("h3", {}, t.questions), h("ul", {}, e.questions_to_ask.map((q) => h("li", {}, q))))
       : null,
     h("p", { class: "help", lang: outputLang, dir: isRtl(outputLang) ? "rtl" : undefined }, t.advice),
-    outputLang !== "en" ? h("p", { class: "help" }, `Written in ${languageName(outputLang)}. Check the dates and amounts against the letter. This is not legal advice.`) : null,
     notes.length ? h("ul", { class: "reasons" }, notes.map((n) => h("li", {}, n))) : null,
     !onDevice ? h("details", { class: "why-route" }, h("summary", {}, "Why it went to the cloud"), reasonsList(route)) : null,
   );
@@ -327,6 +373,7 @@ function prepareBlock(message: string) {
       });
       preparing = null;
       await refreshDevice();
+      schedulePreview();
       status.textContent = deviceState === "available" ? "Ready. Read the letter again and it stays on this device." : "The download did not finish. Try again later.";
     } catch {
       preparing = null;
@@ -395,6 +442,11 @@ function renderReview(r: ReviewState) {
       "fieldset",
       { class: "hidden-items" },
       h("legend", { class: "label" }, `Hidden details (${m.entries.length})`),
+      h(
+        "p",
+        { class: "help policy" },
+        "Hidden: names of people, home addresses, dates of birth, account, case and reference numbers, phone numbers and email addresses. Kept: the name of the organisation that sent the letter, deadlines and amounts, because the answer depends on them.",
+      ),
       allValues.size === 0 ? h("p", { class: "help" }, "Nothing was found to hide. Add anything personal below.") : null,
       h(
         "ul",
@@ -665,7 +717,7 @@ els.form.addEventListener("submit", (ev) => {
   });
 });
 
-els.lang.addEventListener("change", () => void refreshDevice("en", els.lang.value));
+els.lang.addEventListener("change", schedulePreview);
 
 // ---------- start ----------
 
@@ -675,7 +727,7 @@ bootP
     if (b.mode === "demo") {
       document.querySelector(".intro")?.append(h("p", { class: "notice notice--demo", role: "note" }, `Demo mode: answers come from simple rules, not an AI model. ${b.note ?? ""}`));
     }
-    await refreshDevice();
+    await updatePreview();
     if (deviceState === "downloadable" || deviceState === "downloading") {
       const slot = document.querySelector(".pane--letter");
       slot?.append(prepareBlock("Read letters fully offline: download the private reader once (a few minutes, on Wi-Fi)."));
